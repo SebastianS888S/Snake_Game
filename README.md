@@ -1,1 +1,1 @@
-# Portofolio project_1 Rainbow Snake Game
+# Project_1 Rainbow Snake Game
