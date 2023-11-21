@@ -27,6 +27,12 @@ let snake =[
 
 window.addEventListener("keydown", changeDirection)
 resetBTN.addEventListener("click", resetGame)
+window.addEventListener("keydown", function (event) {
+    if (event.target.tagName.toLowerCase() !== 'input' && event.target.tagName.toLowerCase() !== 'textarea') {
+        event.preventDefault(); 
+        changeDirection(event);
+    }
+});
 
 gameStart();
 createFood();
@@ -97,20 +103,36 @@ function moveSnake(){
     }
 };
 
-function drawSnake(){
-     for (let i = 0; i < snake.length; i++) {
-    const snakePart = snake[i];
-    const gradient = context.createLinearGradient(snakePart.x, snakePart.y, snakePart.x + unitSize, snakePart.y + unitSize);
-    const color1 = `hsl(${(i * 10) % 360}, 100%, 50%)`;
-    const color2 = `hsl(${((i * 10) + 180) % 360}, 100%, 50%)`;
-    gradient.addColorStop(0, color1);
-    gradient.addColorStop(1, color2);
-    context.fillStyle = gradient;
-    context.strokeStyle = snakeBorder;
-    context.fillRect(snakePart.x, snakePart.y, unitSize, unitSize);
-    context.strokeRect(snakePart.x, snakePart.y, unitSize, unitSize);
+function drawSnake() {
+    for (let i = 0; i < snake.length; i++) {
+      const snakePart = snake[i];
+      const gradient = context.createLinearGradient(
+        snakePart.x,
+        snakePart.y,
+        snakePart.x + unitSize,
+        snakePart.y + unitSize
+      );
+      const color1 = `hsl(${(i * 10) % 360}, 100%, 50%)`;
+      const color2 = `hsl(${((i * 10) + 180) % 360}, 100%, 50%)`;
+      gradient.addColorStop(0, color1);
+      gradient.addColorStop(1, color2);
+  
+      context.fillStyle = gradient;
+      context.strokeStyle = snakeBorder;
+  
+      context.beginPath();
+      context.arc(
+        snakePart.x + unitSize / 2,
+        snakePart.y + unitSize / 2,
+        unitSize / 2,
+        0,
+        Math.PI * 2
+      );
+      context.fill();
+      context.stroke();
+    }
   }
-};
+  
 
 function changeDirection(event){
     const keyPress = event.keyCode; 
@@ -169,7 +191,7 @@ function checkGameOver(){
 };
 
 function displayGameOver(){
-    context.font = '50px MV Boli';
+    context.font = '50px Orbitron, sans-serif';
     context.fillStyle = "white";
     context.strokeStyle = "black"; 
     context.lineWidth = 1; 
